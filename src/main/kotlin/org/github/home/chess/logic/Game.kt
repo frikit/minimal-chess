@@ -8,7 +8,7 @@ import org.github.home.chess.models.Piece
 class Game(table: Table = Table()) {
 
     private val board: Array<Array<Piece>> = table.board
-    val lastColorMove = arrayListOf(Move(Empty(), " "))
+    val moveHistory = arrayListOf<Move>()
 
     init {
         table.generateBoard()
@@ -44,7 +44,8 @@ class Game(table: Table = Table()) {
     }
 
     private fun isValidPlayerMove(currentColor: Color): Boolean {
-        return currentColor != lastColorMove.last().piece.color
+        return (moveHistory.isEmpty() && currentColor == Color.White) //first move
+                || currentColor != moveHistory.last().piece.color //rest moves
     }
 
     private fun swapPieces(inits: List<Int>) {
@@ -58,7 +59,7 @@ class Game(table: Table = Table()) {
             board[row2][column2] = piece
             board[row1][column1] = Empty()
 
-            lastColorMove.add(Move(piece, getHumanReadableString(inits)))
+            moveHistory.add(Move(piece, getHumanReadableString(inits)))
         } else {
             println("Invalid player move please fix you input!")
         }
