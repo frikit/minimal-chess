@@ -2,14 +2,14 @@ package org.github.home.chess
 
 import com.whitehatgaming.UserInput
 import com.whitehatgaming.UserInputFile
-import org.github.home.chess.generator.TableCreator
+import org.github.home.chess.models.Table
 
 fun main() {
     printWelcomeMessage()
 
     addShutdownHook()
 
-    val table = TableCreator.init()
+    val table = Table()
     table.generateBoard()
     table.printTable()
 
