@@ -1,4 +1,4 @@
-package org.github.home.chess.models.color
+package org.github.home.chess.models
 
 sealed class Color {
     object White : Color()
