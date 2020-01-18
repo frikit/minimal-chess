@@ -9,7 +9,7 @@ fun main() {
 
 
 private fun addShutdownHook() {
-    val mainThread = Thread.currentThread()
+    val mainThread: Thread = Thread.currentThread()
     Runtime.getRuntime().addShutdownHook(object : Thread() {
         override fun run() {
             println("Will print score table or something like this!")
