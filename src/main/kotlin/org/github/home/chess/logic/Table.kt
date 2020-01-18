@@ -2,7 +2,7 @@ package org.github.home.chess.logic
 
 import org.github.home.chess.models.*
 
-class Table(val board: Array<Array<Piece>> = Array(8) { Array<Piece>(8) { Empty() } }) {
+class Table(internal val board: Array<Array<Piece>> = Array(8) { Array<Piece>(8) { Empty() } }) {
 
     fun generateBoard(): Table {
         //white
@@ -56,7 +56,7 @@ class Table(val board: Array<Array<Piece>> = Array(8) { Array<Piece>(8) { Empty(
         val pawnIndex = when (color) {
             Color.White -> startIndex - 1
             Color.Black -> startIndex + 1
-            Color.Empty -> startIndex
+            else -> throw IllegalArgumentException("Color should be white or black!")
         }
 
         (0..7).map {

@@ -16,6 +16,7 @@ internal class TableTest {
     @Test
     fun `test generated tables are the same`() {
         assert(Table() == Table()) { "new generate tables should be equal" }
+        assert(Table().hashCode() == Table().hashCode()) { "new generate tables should be equal" }
     }
 
     @Test
