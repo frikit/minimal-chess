@@ -9,12 +9,47 @@ sealed class Piece(
     val maxNumbers: Int
 )
 
-data class Pawn(override val color: Color) : Piece(generateID(), "pawn", color, 8)
-data class Knight(override val color: Color) : Piece(generateID(), "knight", color, 2)
-data class Bishop(override val color: Color) : Piece(generateID(), "bishop", color, 2)
-data class Rook(override val color: Color) : Piece(generateID(), "rook", color, 2)
-data class Queen(override val color: Color) : Piece(generateID(), "queen", color, 1)
-data class King(override val color: Color) : Piece(generateID(), "king", color, 1)
+data class Empty(override val color: Color = Color.Empty) : Piece(generateID(), "  ", color, maxNumbers) {
+    companion object {
+        const val maxNumbers: Int = 99
+    }
+}
+
+data class Pawn(override val color: Color) : Piece(generateID(), "pa", color, maxNumbers) {
+    companion object {
+        const val maxNumbers: Int = 8
+    }
+}
+
+data class Knight(override val color: Color) : Piece(generateID(), "kn", color, maxNumbers) {
+    companion object {
+        const val maxNumbers: Int = 2
+    }
+}
+
+data class Bishop(override val color: Color) : Piece(generateID(), "bi", color, maxNumbers) {
+    companion object {
+        const val maxNumbers: Int = 2
+    }
+}
+
+data class Rook(override val color: Color) : Piece(generateID(), "ro", color, maxNumbers) {
+    companion object {
+        const val maxNumbers: Int = 2
+    }
+}
+
+data class Queen(override val color: Color) : Piece(generateID(), "qu", color, maxNumbers) {
+    companion object {
+        const val maxNumbers: Int = 1
+    }
+}
+
+data class King(override val color: Color) : Piece(generateID(), "ki", color, maxNumbers) {
+    companion object {
+        const val maxNumbers: Int = 1
+    }
+}
 
 
 private fun generateID(): String {

@@ -1,6 +1,7 @@
 package org.github.home.chess.models
 
-sealed class Color {
-    object White : Color()
-    object Black : Color()
+sealed class Color(val name: String) {
+    object White : Color("w")
+    object Black : Color("b")
+    object Empty : Color(" ")
 }

@@ -1,12 +1,36 @@
 package org.github.home.chess
 
+import com.whitehatgaming.UserInput
+import com.whitehatgaming.UserInputFile
+import org.github.home.chess.generator.TableCreator
+
 fun main() {
-    println("Start chess game!")
+    printWelcomeMessage()
+
     addShutdownHook()
-    Thread.sleep(10_000)
-    println("Finish game")
+
+    val table = TableCreator.init()
+    table.generateBoard()
+    table.printTable()
+
+    val path = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/sample-moves.txt"
+    val input: UserInput = UserInputFile(path)
+    var play = true
+    while (play) {
+        play = table.move(input.nextMove())
+    }
+
+    printByeMessage()
 }
 
+//messages
+private fun printWelcomeMessage() {
+    println("Start chess game!")
+}
+
+private fun printByeMessage() {
+    println("Finish game!")
+}
 
 private fun addShutdownHook() {
     val mainThread: Thread = Thread.currentThread()
