@@ -2,22 +2,20 @@ package org.github.home.chess
 
 import com.whitehatgaming.UserInput
 import com.whitehatgaming.UserInputFile
-import org.github.home.chess.models.Table
+import org.github.home.chess.logic.Game
 
 fun main() {
     printWelcomeMessage()
 
     addShutdownHook()
 
-    val table = Table()
-    table.generateBoard()
-    table.printTable()
+    val game = Game()
 
     val path = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/sample-moves.txt"
     val input: UserInput = UserInputFile(path)
     var play = true
     while (play) {
-        play = table.move(input.nextMove())
+        play = game.move(input.nextMove())
     }
 
     printByeMessage()
