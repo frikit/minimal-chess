@@ -5,14 +5,6 @@ import org.junit.jupiter.api.Test
 
 internal class TableTest {
 
-    @org.junit.jupiter.api.BeforeEach
-    fun setUp() {
-    }
-
-    @org.junit.jupiter.api.AfterEach
-    fun tearDown() {
-    }
-
     @Test
     fun `test generated tables are the same`() {
         assert(Table() == Table()) { "new generate tables should be equal" }

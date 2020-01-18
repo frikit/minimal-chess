@@ -8,7 +8,7 @@ import org.github.home.chess.models.Piece
 class Game(table: Table = Table()) {
 
     private val board: Array<Array<Piece>> = table.board
-    private val lastColorMove = arrayListOf<Move>(Move(Empty(), " "))
+    val lastColorMove = arrayListOf(Move(Empty(), " "))
 
     init {
         table.generateBoard()
