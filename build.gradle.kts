@@ -12,6 +12,10 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
+    testImplementation(group = "org.junit.jupiter", name = "junit-jupiter-api", version = "5.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
+
 }
 
 tasks {
@@ -20,5 +24,9 @@ tasks {
     }
     compileTestKotlin {
         kotlinOptions.jvmTarget = "1.8"
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
