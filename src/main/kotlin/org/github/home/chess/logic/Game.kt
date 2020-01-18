@@ -1,14 +1,18 @@
 package org.github.home.chess.logic
 
+import org.github.home.chess.models.Color
 import org.github.home.chess.models.Empty
+import org.github.home.chess.models.Move
 import org.github.home.chess.models.Piece
 
 class Game(table: Table = Table()) {
 
-    private val board = table.board
+    private val board: Array<Array<Piece>> = table.board
+    private val lastColorMove = arrayListOf<Move>(Move(Empty(), " "))
 
     init {
         table.generateBoard()
+        printTable(board)
     }
 
     private fun printTable(board: Array<Array<Piece>>) {
@@ -28,35 +32,59 @@ class Game(table: Table = Table()) {
     fun move(moves: IntArray?): Boolean {
         if (moves == null) return false
 
-        println()
-        println("------------------- NEXT MOVE -----------------------")
-        println()
-
         val inits = moves.toList()
-        printInput(inits)
-        printHumanReadable(inits)
 
+        printStepHeader(inits)
+
+        swapPieces(inits)
+
+        printTable(board)
+
+        return true
+    }
+
+    private fun isValidPlayerMove(currentColor: Color): Boolean {
+        return currentColor != lastColorMove.last().piece.color
+    }
+
+    private fun swapPieces(inits: List<Int>) {
         val column1 = inits[0]
         val row1 = inits[1]
         val column2 = inits[2]
         val row2 = inits[3]
 
         val piece = board[row1][column1]
-        board[row2][column2] = piece
-        board[row1][column1] = Empty()
-        printTable(board)
+        if (isValidPlayerMove(piece.color)) {
+            board[row2][column2] = piece
+            board[row1][column1] = Empty()
 
-        return true
+            lastColorMove.add(Move(piece, getHumanReadableString(inits)))
+        } else {
+            println("Invalid player move please fix you input!")
+        }
     }
 
-    private fun printHumanReadable(inits: List<Int>) {
+    private fun printStepHeader(inits: List<Int>) {
+        println()
+        println("------------------- NEXT MOVE -----------------------")
+        println()
+
+        printInput(inits)
+        printHumanReadable(inits)
+    }
+
+    private fun getHumanReadableString(inits: List<Int>): String {
         val column1 = inits[0]
         val row1 = 7 - inits[1]
         val column2 = inits[2]
         val row2 = 7 - inits[3]
 
+        return "${getChar(column1)}${row1 + 1}${getChar(column2)}${row2 + 1}"
+    }
+
+    private fun printHumanReadable(inits: List<Int>) {
         print("Used values:  ")
-        print("${getChar(column1)}${row1 + 1}${getChar(column2)}${row2 + 1}")
+        print(getHumanReadableString(inits))
         println()
     }
 

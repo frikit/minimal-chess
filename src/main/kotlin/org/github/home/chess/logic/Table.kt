@@ -4,11 +4,13 @@ import org.github.home.chess.models.*
 
 class Table(val board: Array<Array<Piece>> = Array(8) { Array<Piece>(8) { Empty() } }) {
 
-    fun generateBoard() {
+    fun generateBoard(): Table {
         //white
         setPlayerBoard(7, board, Color.White)
         //black
         setPlayerBoard(0, board, Color.Black)
+
+        return this
     }
 
     private fun setPlayerBoard(startIndex: Int, board: Array<Array<Piece>>, color: Color) {
