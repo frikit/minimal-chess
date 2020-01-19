@@ -1,5 +1,6 @@
 package org.github.home.chess.logic
 
+import org.github.home.chess.models.Color
 import org.github.home.chess.models.Empty
 import org.github.home.chess.models.InputMove
 import org.github.home.chess.models.Piece
@@ -114,9 +115,8 @@ object PieceStrategy {
     //TODO refactor
     private fun isHorizontalOrVerticalMove(board: Array<Array<Piece>>, input: InputMove): Boolean {
         val curr = board[input.row1][input.column1]
-        var offset: Int
+        val offset: Int
 
-        //TODO can jump over and kill pawn?! bug or feature
         //rows
         if (input.row1 != input.row2 && input.column1 == input.column2) {
             offset = if (input.row1 < input.row2) {
@@ -125,10 +125,12 @@ object PieceStrategy {
                 -1
             }
             var x: Int = input.row1 + offset
-            while (x != input.row2) {
-                if (!isValidTargetCeil(curr, board[x][input.column1])) {
-                    return false
-                }
+            val lastIndex = input.row2
+            while (x != input.row2 + offset) {
+                if (x == lastIndex && board[x][input.column1].color != curr.color) return true
+                if (x != lastIndex && board[x][input.column1].color != Color.Empty && board[x][input.column1].color != curr.color) return false
+                if (board[x][input.column1].color == curr.color) return false
+
                 x += offset
             }
         } else if (input.row1 == input.row2 && input.column1 != input.column2) {
@@ -139,17 +141,16 @@ object PieceStrategy {
                 -1
             }
             var x: Int = input.column1 + offset
-            while (x != input.column2) {
-                if (!isValidTargetCeil(curr, board[input.row1][x])) {
-                    return false
-                }
+            val lastIndex = input.column2
+            while (x != input.column2 + offset) {
+                if (x == lastIndex && board[input.row1][x].color != curr.color) return true
+                if (x != lastIndex && board[input.row1][x].color != Color.Empty && board[input.row1][x].color != curr.color) return false
+                if (board[input.row1][x].color == curr.color) return false
                 x += offset
             }
-        } else {
-            return false
         }
 
-        return true
+        return false
     }
 
     //base logic

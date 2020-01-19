@@ -15,6 +15,7 @@ internal class RookStrategyTest {
     private val moveDownTwoCeil = Resource.getResource("invalid-move-down.txt", folder)
     private val moveUpTwoCeil = Resource.getResource("invalid-move-up.txt", folder)
     private val moveDiagonalTwoCeil = Resource.getResource("invalid-move-diagonal.txt", folder)
+    private val moveRowRight = Resource.getResource("invalid-move-right.txt", folder)
 
     private val expectedColumn = 5
     private val expectedRow = 0
@@ -61,6 +62,14 @@ internal class RookStrategyTest {
         val game = Main.playGame(moveUpTwoCeil)
         val curr = game.moveHistory.size
         val expected = Resource.readLines(moveUpTwoCeil).size - 2 //two is invalid
+        assert(curr == expected) { "Found in file $expected != $curr from history" }
+    }
+
+    @Test
+    fun `test invalid move location(row right)`() {
+        val game = Main.playGame(moveRowRight)
+        val curr = game.moveHistory.size
+        val expected = Resource.readLines(moveRowRight).size - 1 //one is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 
