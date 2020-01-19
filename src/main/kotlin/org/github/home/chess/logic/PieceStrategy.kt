@@ -197,18 +197,43 @@ object PieceStrategy {
     }
 
     fun knightLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && isOneOfLShapeMove(board, input)
+        return isValidFromTo(board, input) && isOneOfLShapeMove(input)
     }
 
-    private fun isOneOfLShapeMove(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        val horseMoves
+    private fun isOneOfLShapeMove(input: InputMove): Boolean {
+        val targetPosition = Pair(input.column2, input.row2)
 
-        //up
-        val horseUp = input.row1 + 2
-        val horseUpLeft = input.column1 + 1
-        val horseUpRight = input.column1 - 1
+        //up d
+        var row = input.row1 + 2
+        var column = input.column1 + 1
+        val upRight = Pair(column, row)
+        column = input.column1 - 1
+        val upLeft = Pair(column, row)
 
+        //right d
+        row = input.row1 - 2
+        column = input.column1 + 1
+        val rightUp = Pair(column, row)
+        column = input.column1 - 1
+        val rightDown = Pair(column, row)
 
+        //down
+        column = input.column1 - 2
+        row = input.row1 + 1
+        val downRight = Pair(column, row)
+        row = input.row1 - 1
+        val downLeft = Pair(column, row)
+
+        //left
+        column = input.column1 + 2
+        row = input.row1 + 1
+        val leftUp = Pair(column, row)
+        row = input.row1 - 1
+        val leftDown = Pair(column, row)
+
+        val positions = listOf(upLeft, upRight, downLeft, downRight, leftDown, leftUp, rightDown, rightUp)
+
+        return positions.contains(targetPosition)
     }
 
 }
