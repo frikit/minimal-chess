@@ -10,7 +10,7 @@ object Main {
 
         addShutdownHook()
 
-        val path = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/sample-moves.txt"
+        val path = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/valid-moves.txt"
         playGame(path)
 
         printByeMessage()

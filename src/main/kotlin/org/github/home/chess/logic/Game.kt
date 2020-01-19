@@ -45,7 +45,7 @@ class Game(table: Table = Table()) {
 
     private fun isValidPlayerMove(currentColor: Color): Boolean {
         return (moveHistory.isEmpty() && currentColor == Color.White) //first move
-                || currentColor != moveHistory.last().piece.color //rest moves
+                || (moveHistory.isNotEmpty() && currentColor != moveHistory.last().piece.color) //rest moves
     }
 
     private fun swapPieces(inits: List<Int>) {

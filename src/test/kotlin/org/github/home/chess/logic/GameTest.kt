@@ -1,14 +1,15 @@
 package org.github.home.chess.logic
 
 import org.github.home.chess.Main
+import org.github.home.chess.utils.Resource
 import org.junit.jupiter.api.Test
 import java.io.File
 
 internal class GameTest {
 
-    private val validMoves = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/sample-moves.txt"
-    private val twoTimesWithWhite =
-        "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/two-times-same-color.txt"
+    private val validMoves = Resource.getResource("valid-moves.txt")
+    private val twoTimesWithWhite = Resource.getResource("two-times-same-color.txt")
+    private val startWithBlack = Resource.getResource("first-move-black-color.txt")
 
     @Test
     fun `init game check no moves`() {
@@ -31,5 +32,12 @@ internal class GameTest {
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 
-    //TODO add test with moves and check moves
+    @Test
+    fun `check make start with black`() {
+        val game = Main.playGame(startWithBlack)
+        val curr = game.moveHistory.size
+        val expected = File(startWithBlack).readLines().size - 1 //first is invalid
+        assert(curr == expected) { "Found in file $expected != $curr from history" }
+    }
+
 }
