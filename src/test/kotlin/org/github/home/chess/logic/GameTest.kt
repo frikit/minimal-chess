@@ -10,6 +10,9 @@ internal class GameTest {
     private val validMoves = Resource.getResource("valid-moves.txt")
     private val twoTimesWithWhite = Resource.getResource("two-times-same-color.txt")
     private val startWithBlack = Resource.getResource("first-move-black-color.txt")
+    private val emptyCeilMove = Resource.getResource("invalid-move-empty-slot.txt")
+    private val whiteOnWhiteCeilMove = Resource.getResource("move-white-on-white.txt")
+    private val blackOnBlackCeilMove = Resource.getResource("move-black-on-black.txt")
 
     @Test
     fun `init game check no moves`() {
@@ -33,10 +36,34 @@ internal class GameTest {
     }
 
     @Test
-    fun `check make start with black`() {
+    fun `check start with black`() {
         val game = Main.playGame(startWithBlack)
         val curr = game.moveHistory.size
         val expected = File(startWithBlack).readLines().size - 1 //first is invalid
+        assert(curr == expected) { "Found in file $expected != $curr from history" }
+    }
+
+    @Test
+    fun `check move empty ceil`() {
+        val game = Main.playGame(emptyCeilMove)
+        val curr = game.moveHistory.size
+        val expected = File(emptyCeilMove).readLines().size - 1 //one is invalid
+        assert(curr == expected) { "Found in file $expected != $curr from history" }
+    }
+
+    @Test
+    fun `check move white on white`() {
+        val game = Main.playGame(whiteOnWhiteCeilMove)
+        val curr = game.moveHistory.size
+        val expected = File(whiteOnWhiteCeilMove).readLines().size - 1 //one is invalid
+        assert(curr == expected) { "Found in file $expected != $curr from history" }
+    }
+
+    @Test
+    fun `check move black on black`() {
+        val game = Main.playGame(blackOnBlackCeilMove)
+        val curr = game.moveHistory.size
+        val expected = File(blackOnBlackCeilMove).readLines().size - 1 //one is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 

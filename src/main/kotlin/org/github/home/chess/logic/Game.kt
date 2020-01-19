@@ -55,13 +55,28 @@ class Game(table: Table = Table()) {
         val row2 = inits[3]
 
         val piece = board[row1][column1]
-        if (isValidPlayerMove(piece.color)) {
+        val target = board[row2][column2]
+        if (isValidPlayerMove(piece.color)
+            && isValidPieceSelected(piece)
+            && isValidTargetCeil(piece, target)
+        ) {
             board[row2][column2] = piece
             board[row1][column1] = Empty()
 
             moveHistory.add(Move(piece, getHumanReadableString(inits)))
         } else {
             println("Invalid player move please fix you input!")
+        }
+    }
+
+    private fun isValidTargetCeil(piece: Piece, target: Piece): Boolean {
+        return piece.color != target.color
+    }
+
+    private fun isValidPieceSelected(piece: Piece): Boolean {
+        return when (piece) {
+            is Empty -> false
+            else -> true
         }
     }
 
