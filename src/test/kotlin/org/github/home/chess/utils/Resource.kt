@@ -8,4 +8,8 @@ object Resource {
     fun getResource(fileName: String): String {
         return File(projFolder + fileName).absolutePath
     }
+
+    fun readLines(path: String): List<String> {
+        return File(path).readLines()
+    }
 }

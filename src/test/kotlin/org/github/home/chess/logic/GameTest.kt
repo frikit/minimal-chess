@@ -23,7 +23,7 @@ internal class GameTest {
     fun `check make all valid moves`() {
         val game = Main.playGame(validMoves)
         val curr = game.moveHistory.size
-        val expected = File(validMoves).readLines().size
+        val expected = Resource.readLines(validMoves).size
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 
@@ -31,7 +31,7 @@ internal class GameTest {
     fun `check make one invalid move from 3 moves`() {
         val game = Main.playGame(twoTimesWithWhite)
         val curr = game.moveHistory.size
-        val expected = File(twoTimesWithWhite).readLines().size - 1 //one is invalid
+        val expected = Resource.readLines(twoTimesWithWhite).size - 1 //one is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 
@@ -47,7 +47,7 @@ internal class GameTest {
     fun `check move empty ceil`() {
         val game = Main.playGame(emptyCeilMove)
         val curr = game.moveHistory.size
-        val expected = File(emptyCeilMove).readLines().size - 1 //one is invalid
+        val expected = Resource.readLines(emptyCeilMove).size - 1 //one is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 
@@ -55,7 +55,7 @@ internal class GameTest {
     fun `check move white on white`() {
         val game = Main.playGame(whiteOnWhiteCeilMove)
         val curr = game.moveHistory.size
-        val expected = File(whiteOnWhiteCeilMove).readLines().size - 1 //one is invalid
+        val expected = Resource.readLines(whiteOnWhiteCeilMove).size - 1 //one is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 
@@ -63,7 +63,7 @@ internal class GameTest {
     fun `check move black on black`() {
         val game = Main.playGame(blackOnBlackCeilMove)
         val curr = game.moveHistory.size
-        val expected = File(blackOnBlackCeilMove).readLines().size - 1 //one is invalid
+        val expected = Resource.readLines(blackOnBlackCeilMove).size - 1 //one is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 

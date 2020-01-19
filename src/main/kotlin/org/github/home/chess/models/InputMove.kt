@@ -14,8 +14,5 @@ class InputMove(inits: List<Int>) {
         require(row1 in 0..7) { "Row coord is out from board! [$row1]" }
         require(row2 in 0..7) { "Row coord is out from board! [$row2]" }
         require(column1 != column2 || row1 != row2) { "Coord are the same!" }
-
-//        require(column1 == column2 && row1 == row2) { "If is the same column rows should be different" }
-//        require(row1 != row2 && column1 == column2) { "If is the same row columns should be different" }
     }
 }

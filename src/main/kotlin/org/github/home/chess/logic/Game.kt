@@ -1,9 +1,8 @@
 package org.github.home.chess.logic
 
-import org.github.home.chess.models.Color
-import org.github.home.chess.models.Empty
-import org.github.home.chess.models.Move
-import org.github.home.chess.models.Piece
+import org.github.home.chess.logic.PieceStrategy.isValidPieceSelected
+import org.github.home.chess.logic.PieceStrategy.isValidTargetCeil
+import org.github.home.chess.models.*
 
 class Game(table: Table = Table()) {
 
@@ -49,16 +48,18 @@ class Game(table: Table = Table()) {
     }
 
     private fun swapPieces(inits: List<Int>) {
-        val column1 = inits[0]
-        val row1 = inits[1]
-        val column2 = inits[2]
-        val row2 = inits[3]
+        val input = InputMove(inits)
+        val column1 = input.column1
+        val row1 = input.row1
+        val column2 = input.column2
+        val row2 = input.row2
 
         val piece = board[row1][column1]
         val target = board[row2][column2]
         if (isValidPlayerMove(piece.color)
             && isValidPieceSelected(piece)
             && isValidTargetCeil(piece, target)
+            && isValidMove(piece, board, input)
         ) {
             board[row2][column2] = piece
             board[row1][column1] = Empty()
@@ -69,16 +70,18 @@ class Game(table: Table = Table()) {
         }
     }
 
-    private fun isValidTargetCeil(piece: Piece, target: Piece): Boolean {
-        return piece.color != target.color
-    }
-
-    private fun isValidPieceSelected(piece: Piece): Boolean {
+    private fun isValidMove(piece: Piece, board: Array<Array<Piece>>, input: InputMove): Boolean {
         return when (piece) {
-            is Empty -> false
-            else -> true
+            is King -> PieceStrategy.kingLogic(board, input)
+            is Pawn -> true
+            is Knight -> true
+            is Bishop -> true
+            is Rook -> true
+            is Queen -> true
+            else -> false//TODO nare cum sa ajunga aici
         }
     }
+
 
     private fun printStepHeader(inits: List<Int>) {
         println()

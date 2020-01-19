@@ -5,12 +5,14 @@ import com.whitehatgaming.UserInputFile
 import org.github.home.chess.logic.Game
 
 object Main {
-    fun main() {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
         printWelcomeMessage()
 
         addShutdownHook()
 
-        val path = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/valid-moves.txt"
+        val path = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/sample.txt"
         playGame(path)
 
         printByeMessage()

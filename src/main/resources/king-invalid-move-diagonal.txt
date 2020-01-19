@@ -1,0 +1,12 @@
+e2e4
+e7e5
+d2d4
+d7d5
+f2f4
+f7f5
+d1d3
+d8d6
+d3a3
+d6a6
+e1e3
+e1e2
