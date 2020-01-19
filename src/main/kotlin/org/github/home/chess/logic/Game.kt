@@ -5,6 +5,32 @@ import org.github.home.chess.logic.PieceStrategy.isValidTargetCeil
 import org.github.home.chess.models.*
 
 class Game(table: Table = Table()) {
+    companion object {
+        private fun getChar(intType: Int): Char {
+            return (intType + 97).toChar()
+        }
+
+        private fun getHumanReadableString(inits: List<Int>): String {
+            val column1 = inits[0]
+            val row1 = 7 - inits[1]
+            val column2 = inits[2]
+            val row2 = 7 - inits[3]
+
+            return "${getChar(column1)}${row1 + 1}${getChar(column2)}${row2 + 1}"
+        }
+
+        fun printHumanReadable(inits: List<Int>) {
+            print("Used values:  ")
+            print(getHumanReadableString(inits))
+            println()
+        }
+
+        fun printInput(inits: List<Int>) {
+            print("Input values: ")
+            inits.map { print(it) }
+            println()
+        }
+    }
 
     private val board: Array<Array<Piece>> = table.board
     val moveHistory = arrayListOf<Move>()
@@ -83,7 +109,7 @@ class Game(table: Table = Table()) {
             is Pawn -> true
             is Knight -> true
             is Bishop -> PieceStrategy.bishopLogic(board, input)
-            is Rook -> true
+            is Rook -> PieceStrategy.rookLogic(board, input)
             is Queen -> true
             else -> false//TODO nare cum sa ajunga aici
         }
@@ -97,31 +123,6 @@ class Game(table: Table = Table()) {
 
         printInput(inits)
         printHumanReadable(inits)
-    }
-
-    private fun getHumanReadableString(inits: List<Int>): String {
-        val column1 = inits[0]
-        val row1 = 7 - inits[1]
-        val column2 = inits[2]
-        val row2 = 7 - inits[3]
-
-        return "${getChar(column1)}${row1 + 1}${getChar(column2)}${row2 + 1}"
-    }
-
-    private fun printHumanReadable(inits: List<Int>) {
-        print("Used values:  ")
-        print(getHumanReadableString(inits))
-        println()
-    }
-
-    private fun printInput(inits: List<Int>) {
-        print("Input values: ")
-        inits.map { print(it) }
-        println()
-    }
-
-    private fun getChar(intType: Int): Char {
-        return (intType + 97).toChar()
     }
 
 }

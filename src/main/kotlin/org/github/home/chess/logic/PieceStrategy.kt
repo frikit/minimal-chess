@@ -7,6 +7,7 @@ import kotlin.math.abs
 
 object PieceStrategy {
 
+    //king
     private fun isNearCeil(input: InputMove): Boolean {
         if (abs(input.column2 - input.column1) < 2
             && abs(input.row2 - input.row1) < 2
@@ -16,6 +17,7 @@ object PieceStrategy {
         return false
     }
 
+    //bishop
     private fun isDiagonalCeil(board: Array<Array<Piece>>, input: InputMove): Boolean {
         var movable = false
         //TODO check not jump over other pieces while moving on diagonally
@@ -108,17 +110,59 @@ object PieceStrategy {
         return res
     }
 
+    //rook
+    //TODO refactor
+    private fun isHorizontalOrVerticalMove(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        val curr = board[input.row1][input.column1]
+        var offset: Int
+
+        //TODO can jump over and kill pawn?! bug or feature
+        //rows
+        if (input.row1 != input.row2 && input.column1 == input.column2) {
+            offset = if (input.row1 < input.row2) {
+                1
+            } else {
+                -1
+            }
+            var x: Int = input.row1 + offset
+            while (x != input.row2) {
+                if (!isValidTargetCeil(curr, board[x][input.column1])) {
+                    return false
+                }
+                x += offset
+            }
+        } else if (input.row1 == input.row2 && input.column1 != input.column2) {
+            //columns
+            offset = if (input.column1 < input.column2) {
+                1
+            } else {
+                -1
+            }
+            var x: Int = input.column1 + offset
+            while (x != input.column2) {
+                if (!isValidTargetCeil(curr, board[input.row1][x])) {
+                    return false
+                }
+                x += offset
+            }
+        } else {
+            return false
+        }
+
+        return true
+    }
+
+    //base logic
+    fun isValidTargetCeil(piece: Piece, target: Piece): Boolean {
+        return piece.color != target.color
+    }
+
     private fun fromCeil(board: Array<Array<Piece>>, input: InputMove): Piece {
         return board[input.row1][input.column1]
     }
 
     private fun toCeil(board: Array<Array<Piece>>, input: InputMove): Piece {
         return board[input.row2][input.column2]
-    }
-
-    //base logic
-    fun isValidTargetCeil(piece: Piece, target: Piece): Boolean {
-        return piece.color != target.color
     }
 
     fun isValidPieceSelected(piece: Piece): Boolean {
@@ -142,4 +186,9 @@ object PieceStrategy {
     fun bishopLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
         return isValidFromTo(board, input) && isDiagonalCeil(board, input)
     }
+
+    fun rookLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isHorizontalOrVerticalMove(board, input)
+    }
+
 }
