@@ -8,6 +8,7 @@ class InputMove(inits: List<Int>) {
     val row2 by lazy { inits[3] }
 
     init {
+        require(inits.isNotEmpty()) { "Input is empty!!!" }
         require(inits.size == 4) { "Input should have only 4 elements" }
         require(column1 in 0..7) { "Column coord is out from board! [$column1]" }
         require(column2 in 0..7) { "Column coord is out from board! [$column2]" }

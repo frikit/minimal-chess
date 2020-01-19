@@ -50,6 +50,8 @@ object Main {
         val mainThread: Thread = Thread.currentThread()
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
+                println("Player " + game.moveHistory.last().piece.color.longName + " WIN!")
+                println("Here is history!")
                 game.moveHistory.forEach {
                     println(it)
                 }

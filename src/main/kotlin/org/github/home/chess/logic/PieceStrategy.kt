@@ -5,6 +5,7 @@ import org.github.home.chess.models.Empty
 import org.github.home.chess.models.InputMove
 import org.github.home.chess.models.Piece
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 object PieceStrategy {
 
@@ -241,7 +242,105 @@ object PieceStrategy {
     }
 
     private fun isPawnMove(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        val target = board[input.row1][input.column1]
+        val current = board[input.row1][input.column1]
+        val target = board[input.row2][input.column2]
+
+        // check direction
+        if (current.color == Color.White) {
+            if (input.row1 < input.row2)
+                return false
+        }
+
+        // check direction
+        if (current.color == Color.Black) {
+            if (input.row1 > input.row2)
+                return false
+        }
+
+        // on first move allow 2 spaces
+        if (current.isFirstMove) {
+            val distance = input.row1 - input.row2
+            if (distance.absoluteValue > 2) {
+                return false
+            }
+            // check move only on empty spot
+            if (current.color == Color.White) {
+                val c1 = input.row1 - 1
+                val c2 = input.row1 - 2
+                if (board[c1][input.column1] != Empty()) {
+                    return false
+                }
+                if (board[c2][input.column1] != Empty()) {
+                    return false
+                }
+            }
+            if (current.color == Color.Black) {
+                val c1 = input.row1 + 1
+                val c2 = input.row1 + 2
+                if (board[c1][input.column1] != Empty()) {
+                    return false
+                }
+                if (board[c2][input.column1] != Empty()) {
+                    return false
+                }
+            }
+        }
+
+        // on first move allow 1 spaces
+        if (!current.isFirstMove) {
+            val distance = input.row1 - input.row2
+            if (distance.absoluteValue > 1) {
+                return false
+            }
+            if (current.color == Color.White) {
+                val c1 = input.row1 - 1
+                if (board[c1][input.column1] != Empty()) {
+                    return false
+                }
+            }
+            if (current.color == Color.Black) {
+                val c1 = input.row1 + 1
+                if (board[c1][input.column1] != Empty()) {
+                    return false
+                }
+            }
+        }
+
+        if (current.color == Color.White) {
+            val columnRight = input.column1 + 1
+            val columnLeft = input.column1 - 1
+            val row = input.row1 - 1
+            if (input.column2 == columnRight || input.column2 == columnLeft && input.row2 == row) {
+                if (columnLeft in 0..7)
+                    if (board[row][columnLeft].color == Color.Black) {
+                        return true
+                    }
+                if (columnRight in 0..7)
+                    if (board[row][columnRight].color == Color.Black) {
+                        return true
+                    }
+            }
+
+        }
+
+        if (current.color == Color.Black) {
+            val columnRight = input.column1 + 1
+            val columnLeft = input.column1 - 1
+            val row = input.row1 + 1
+            if (input.column2 == columnRight || input.column2 == columnLeft && input.row2 == row) {
+                if (columnLeft in 0..7)
+                    if (board[row][columnLeft].color == Color.White) {
+                        return true
+                    }
+                if (columnRight in 0..7)
+                    if (board[row][columnRight].color == Color.White) {
+                        return true
+                    }
+            }
+
+        }
+
+        return true
     }
 
 }

@@ -94,13 +94,69 @@ class Game(table: Table = Table()) {
             && isValidMove(piece, board, input)
             && isValidTargetCeil(piece, target)
         ) {
+            val check = isCheckForCheck(false)
+            if (check) println("in check")
+
+            val pivot = board[row2][column2]
+
             board[row2][column2] = piece
             board[row1][column1] = Empty()
 
-            moveHistory.add(Move(piece, getHumanReadableString(inits)))
+            if (isCheckForCheck(true) && check) {
+                board[row2][column2] = pivot
+                board[row1][column1] = piece
+                println("check")
+            } else {
+                moveHistory.add(Move(piece, getHumanReadableString(inits)))
+                piece.isFirstMove = false
+
+            }
         } else {
             println("Invalid player move please fix you input!")
         }
+    }
+
+    private fun isCheckForCheck(print: Boolean): Boolean {
+        var blackKing: Pair<Int, Int> = Pair(0, 0)
+        var whiteKing: Pair<Int, Int> = Pair(0, 0)
+        board.forEachIndexed { y, item ->
+            item.forEachIndexed { x, piece ->
+                run {
+                    if (piece is King && piece.color == Color.White) {
+                        whiteKing = Pair(x, y)
+                    }
+                    if (piece is King && piece.color == Color.Black) {
+                        blackKing = Pair(x, y)
+                    }
+                }
+            }
+        }
+        //check all between all elements as there is no check
+        board.forEachIndexed { y, item ->
+            item.forEachIndexed { x, piece ->
+                run {
+                    var moves = emptyList<Int>()
+                    if (piece.color == Color.Black) {
+                        moves = listOf(x, y, whiteKing.first, whiteKing.second)
+                    }
+                    if (piece.color == Color.White) {
+                        moves = listOf(x, y, blackKing.first, blackKing.second)
+                    }
+                    if (piece.color != Color.Empty) {
+                        val inputMove = InputMove(moves)
+                        if (isValidMove(piece, board, inputMove)) {
+                            if (print) {
+                                print("Check for: ")
+                                printHumanReadable(moves)
+                                println("King is under attack save the king!")
+                            }
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+        return false
     }
 
     private fun isValidMove(piece: Piece, board: Array<Array<Piece>>, input: InputMove): Boolean {
