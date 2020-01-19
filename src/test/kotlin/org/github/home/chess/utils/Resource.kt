@@ -5,11 +5,11 @@ import java.io.File
 object Resource {
     private val projFolder = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/"
 
-    fun getResource(fileName: String): String {
-        return File(projFolder + fileName).absolutePath
+    fun getResource(fileName: String, folder: String = ""): String {
+        return File(projFolder + folder + fileName).absolutePath
     }
 
-    fun readLines(path: String): List<String> {
+    fun readLines(path: String, folder: String = ""): List<String> {
         return File(path).readLines()
     }
 }

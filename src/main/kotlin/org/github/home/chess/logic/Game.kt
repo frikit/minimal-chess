@@ -56,10 +56,17 @@ class Game(table: Table = Table()) {
 
         val piece = board[row1][column1]
         val target = board[row2][column2]
+
+        //TODO remove for debug purpose
+        if (!isValidPlayerMove(piece.color)) println("Is invalid player move!")
+        if (!isValidPieceSelected(piece)) println("Is invalid piece selected!")
+        if (!isValidMove(piece, board, input)) println("Is invalid move made for piece!")
+        if (!isValidTargetCeil(piece, target)) println("Is invalid target ceil!")
+
         if (isValidPlayerMove(piece.color)
             && isValidPieceSelected(piece)
-            && isValidTargetCeil(piece, target)
             && isValidMove(piece, board, input)
+            && isValidTargetCeil(piece, target)
         ) {
             board[row2][column2] = piece
             board[row1][column1] = Empty()
@@ -75,7 +82,7 @@ class Game(table: Table = Table()) {
             is King -> PieceStrategy.kingLogic(board, input)
             is Pawn -> true
             is Knight -> true
-            is Bishop -> true
+            is Bishop -> PieceStrategy.bishopLogic(board, input)
             is Rook -> true
             is Queen -> true
             else -> false//TODO nare cum sa ajunga aici

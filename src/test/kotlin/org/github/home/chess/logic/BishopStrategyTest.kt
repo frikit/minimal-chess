@@ -1,14 +1,14 @@
 package org.github.home.chess.logic
 
 import org.github.home.chess.Main
+import org.github.home.chess.models.Bishop
 import org.github.home.chess.models.Color
-import org.github.home.chess.models.King
 import org.github.home.chess.utils.Resource
 import org.junit.jupiter.api.Test
 
-internal class KingStrategyTest {
+internal class BishopStrategyTest {
 
-    private val folder = "king/"
+    private val folder = "bishop/"
     private val moveCeil = Resource.getResource("valid-move.txt", folder)
     private val moveCeilKillPawn = Resource.getResource("valid-move-kill-pawn.txt", folder)
     private val moveAliasCeil = Resource.getResource("invalid-move-alias-location.txt", folder)
@@ -16,9 +16,9 @@ internal class KingStrategyTest {
     private val moveUpTwoCeil = Resource.getResource("invalid-move-up.txt", folder)
     private val moveDiagonalTwoCeil = Resource.getResource("invalid-move-diagonal.txt", folder)
 
-    private val expectedColumn = 4
-    private val expectedRow = 7
-    private val expectedCeilPiece = King(Color.White)
+    private val expectedColumn = 3
+    private val expectedRow = 3
+    private val expectedCeilPiece = Bishop(Color.White)
 
     @Test
     fun `test valid move location`() {
