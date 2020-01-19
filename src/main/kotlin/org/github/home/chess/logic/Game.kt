@@ -107,7 +107,7 @@ class Game(table: Table = Table()) {
         return when (piece) {
             is King -> PieceStrategy.kingLogic(board, input)
             is Pawn -> true
-            is Knight -> true
+            is Knight -> PieceStrategy.knightLogic(board, input)
             is Bishop -> PieceStrategy.bishopLogic(board, input)
             is Rook -> PieceStrategy.rookLogic(board, input)
             is Queen -> PieceStrategy.queenLogic(board, input)

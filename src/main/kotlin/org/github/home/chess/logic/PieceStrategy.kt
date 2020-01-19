@@ -196,4 +196,19 @@ object PieceStrategy {
         return isValidFromTo(board, input) && (isDiagonalCeil(board, input) || isHorizontalOrVerticalMove(board, input))
     }
 
+    fun knightLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isOneOfLShapeMove(board, input)
+    }
+
+    private fun isOneOfLShapeMove(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        val horseMoves
+
+        //up
+        val horseUp = input.row1 + 2
+        val horseUpLeft = input.column1 + 1
+        val horseUpRight = input.column1 - 1
+
+
+    }
+
 }
