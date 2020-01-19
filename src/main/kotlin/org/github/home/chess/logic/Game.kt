@@ -110,7 +110,7 @@ class Game(table: Table = Table()) {
             is Knight -> true
             is Bishop -> PieceStrategy.bishopLogic(board, input)
             is Rook -> PieceStrategy.rookLogic(board, input)
-            is Queen -> true
+            is Queen -> PieceStrategy.queenLogic(board, input)
             else -> false//TODO nare cum sa ajunga aici
         }
     }

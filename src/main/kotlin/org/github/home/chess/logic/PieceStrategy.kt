@@ -192,4 +192,8 @@ object PieceStrategy {
         return isValidFromTo(board, input) && isHorizontalOrVerticalMove(board, input)
     }
 
+    fun queenLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && (isDiagonalCeil(board, input) || isHorizontalOrVerticalMove(board, input))
+    }
+
 }
