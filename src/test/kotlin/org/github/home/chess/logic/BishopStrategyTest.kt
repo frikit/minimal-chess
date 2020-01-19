@@ -10,7 +10,7 @@ internal class BishopStrategyTest {
 
     private val folder = "bishop/"
     private val moveCeil = Resource.getResource("valid-move.txt", folder)
-    private val moveCeilKillPawn = Resource.getResource("valid-move-kill-pawn.txt", folder)
+    private val moveCeilKill = Resource.getResource("valid-move-kill.txt", folder)
     private val moveAliasCeil = Resource.getResource("invalid-move-alias-location.txt", folder)
     private val moveDownTwoCeil = Resource.getResource("invalid-move-down.txt", folder)
     private val moveUpTwoCeil = Resource.getResource("invalid-move-up.txt", folder)
@@ -29,11 +29,11 @@ internal class BishopStrategyTest {
     }
 
     @Test
-    fun `test valid move location kill one pawn`() {
+    fun `test valid move location kill one`() {
         val table = Table()
-        val game = Main.playGame(moveCeilKillPawn, table)
+        val game = Main.playGame(moveCeilKill, table)
         val curr = game.moveHistory.size
-        val expected = Resource.readLines(moveCeilKillPawn).size
+        val expected = Resource.readLines(moveCeilKill).size
         assert(curr == expected) { "Found in file $expected != $curr from history" }
 
         val piece = table.board[expectedColumn][expectedRow]
