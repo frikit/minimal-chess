@@ -15,3 +15,10 @@ e8e7
 e1f2
 e7f8
 f2f1
+h7h5
+f1g2
+h5h4
+g1f3
+f8e8
+g2h3
+g7h7

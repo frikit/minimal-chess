@@ -3,6 +3,7 @@ package org.github.home.chess
 import com.whitehatgaming.UserInput
 import com.whitehatgaming.UserInputFile
 import org.github.home.chess.logic.Game
+import org.github.home.chess.logic.Table
 
 object Main {
 
@@ -18,8 +19,8 @@ object Main {
         printByeMessage()
     }
 
-    fun playGame(path: String): Game {
-        val game = Game()
+    fun playGame(path: String, table: Table = Table()): Game {
+        val game = Game(table)
 
         val input: UserInput = UserInputFile(path)
         var play = true

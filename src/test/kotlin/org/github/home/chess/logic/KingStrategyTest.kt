@@ -1,17 +1,19 @@
 package org.github.home.chess.logic
 
 import org.github.home.chess.Main
+import org.github.home.chess.models.Color
+import org.github.home.chess.models.King
 import org.github.home.chess.utils.Resource
 import org.junit.jupiter.api.Test
 
 internal class KingStrategyTest {
 
     private val kingMoveCeil = Resource.getResource("king-valid-move.txt")
+    private val kingMoveCeilKillPawn = Resource.getResource("king-valid-move-kill-pawn.txt")
     private val kingMoveAliasCeil = Resource.getResource("king-invalid-move-alias-location.txt")
     private val kingMoveDownTwoCeil = Resource.getResource("king-invalid-move-down.txt")
     private val kingMoveUpTwoCeil = Resource.getResource("king-invalid-move-up.txt")
     private val kingMoveDiagonalTwoCeil = Resource.getResource("king-invalid-move-diagonal.txt")
-
 
     @Test
     fun `test valid move location`() {
@@ -19,6 +21,18 @@ internal class KingStrategyTest {
         val curr = game.moveHistory.size
         val expected = Resource.readLines(kingMoveCeil).size
         assert(curr == expected) { "Found in file $expected != $curr from history" }
+    }
+
+    @Test
+    fun `test valid move location kill one pawn`() {
+        val table = Table()
+        val game = Main.playGame(kingMoveCeilKillPawn, table)
+        val curr = game.moveHistory.size
+        val expected = Resource.readLines(kingMoveCeilKillPawn).size
+        assert(curr == expected) { "Found in file $expected != $curr from history" }
+
+        val king = table.board[4][7]
+        assert(king == King(Color.White)) { "Should be my white king! but found [$king]" }
     }
 
     @Test
