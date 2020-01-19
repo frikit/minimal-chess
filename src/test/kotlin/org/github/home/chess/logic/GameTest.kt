@@ -6,8 +6,9 @@ import java.io.File
 
 internal class GameTest {
 
-    val validMoves = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/sample-moves.txt"
-    val oneInvalidMove = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/two-times-same-color.txt"
+    private val validMoves = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/sample-moves.txt"
+    private val twoTimesWithWhite =
+        "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/two-times-same-color.txt"
 
     @Test
     fun `init game check no moves`() {
@@ -24,9 +25,9 @@ internal class GameTest {
 
     @Test
     fun `check make one invalid move from 3 moves`() {
-        val game = Main.playGame(oneInvalidMove)
+        val game = Main.playGame(twoTimesWithWhite)
         val curr = game.moveHistory.size
-        val expected = File(oneInvalidMove).readLines().size - 1 //one is invalid
+        val expected = File(twoTimesWithWhite).readLines().size - 1 //one is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 

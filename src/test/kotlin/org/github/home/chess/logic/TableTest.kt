@@ -12,6 +12,15 @@ internal class TableTest {
     }
 
     @Test
+    fun `test generated tables are 8x8`() {
+        val table = Table()
+        assert(table.board.size == 8) { "Table should have rows but found ${table.board.size}" }
+        Table().board.forEach {
+            assert(it.size == 8) { "Each row should have  elems but found ${it.size}" }
+        }
+    }
+
+    @Test
     fun `test generated table are empty`() {
         Table().board.forEach { rows ->
             rows.forEach { piece ->
