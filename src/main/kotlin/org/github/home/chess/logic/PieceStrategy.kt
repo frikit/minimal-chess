@@ -18,6 +18,7 @@ object PieceStrategy {
 
     private fun isDiagonalCeil(board: Array<Array<Piece>>, input: InputMove): Boolean {
         var movable = false
+        //TODO check not jump over other pieces while moving on diagonally
         if (abs(input.row2 - input.row1) == abs(input.column2 - input.column1)) {
             if (input.row1 > input.row2 && input.column1 > input.column2) {
                 // Destination is up and to the left of the current location
