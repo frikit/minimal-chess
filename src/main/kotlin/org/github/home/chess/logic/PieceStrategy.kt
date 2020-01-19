@@ -179,27 +179,6 @@ object PieceStrategy {
         return isValidFrom && isValidTo
     }
 
-    //pieces
-    fun kingLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && isNearCeil(input)
-    }
-
-    fun bishopLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && isDiagonalCeil(board, input)
-    }
-
-    fun rookLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && isHorizontalOrVerticalMove(board, input)
-    }
-
-    fun queenLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && (isDiagonalCeil(board, input) || isHorizontalOrVerticalMove(board, input))
-    }
-
-    fun knightLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && isOneOfLShapeMove(input)
-    }
-
     private fun isOneOfLShapeMove(input: InputMove): Boolean {
         val targetPosition = Pair(input.column2, input.row2)
 
@@ -234,6 +213,35 @@ object PieceStrategy {
         val positions = listOf(upLeft, upRight, downLeft, downRight, leftDown, leftUp, rightDown, rightUp)
 
         return positions.contains(targetPosition)
+    }
+
+    //pieces
+    fun kingLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isNearCeil(input)
+    }
+
+    fun bishopLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isDiagonalCeil(board, input)
+    }
+
+    fun rookLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isHorizontalOrVerticalMove(board, input)
+    }
+
+    fun queenLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && (isDiagonalCeil(board, input) || isHorizontalOrVerticalMove(board, input))
+    }
+
+    fun knightLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isOneOfLShapeMove(input)
+    }
+
+    fun pawnLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isPawnMove(board, input)
+    }
+
+    private fun isPawnMove(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        val target = board[input.row1][input.column1]
     }
 
 }

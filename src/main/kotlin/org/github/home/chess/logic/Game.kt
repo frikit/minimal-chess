@@ -106,7 +106,7 @@ class Game(table: Table = Table()) {
     private fun isValidMove(piece: Piece, board: Array<Array<Piece>>, input: InputMove): Boolean {
         return when (piece) {
             is King -> PieceStrategy.kingLogic(board, input)
-            is Pawn -> true
+            is Pawn -> PieceStrategy.pawnLogic(board, input)
             is Knight -> PieceStrategy.knightLogic(board, input)
             is Bishop -> PieceStrategy.bishopLogic(board, input)
             is Rook -> PieceStrategy.rookLogic(board, input)
