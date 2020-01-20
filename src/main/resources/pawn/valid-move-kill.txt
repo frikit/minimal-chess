@@ -1,13 +1,5 @@
 a2a4
-d7d5
-a4a5
-d5d4
-a5a6
-b7a6
-a1a6
-e7e5
-a6h6
-f7f5
-h6h3
-g7g5
-h3a3
+b7b5
+a4b5
+a7a6
+b5a6

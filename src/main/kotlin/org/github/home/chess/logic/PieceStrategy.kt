@@ -215,7 +215,8 @@ object PieceStrategy {
 
         // on first move allow 2 spaces
         if (current.isFirstMove) {
-            val distance = input.row1 - input.row2
+            //row
+            var distance = input.row1 - input.row2
             if (distance.absoluteValue > 2) {
                 //can't move more than 2 ceil
                 return false
@@ -223,6 +224,13 @@ object PieceStrategy {
                 //if is 2 ceil far make sure direction is on same column
                 return false
             }
+            //column
+            distance = input.column2 - input.column1
+            if (distance.absoluteValue > 1) {
+                //can't move more than 1 ceil when kill
+                return false
+            }
+
             // check move only on empty spot
             if (current.color == Color.White) {
                 val c1 = input.row1 - 1
@@ -252,6 +260,10 @@ object PieceStrategy {
             if (distance.absoluteValue > 1) {
                 return false
             }
+            val distanceCol = input.column1 - input.column2
+            if (distanceCol.absoluteValue > 1) {
+                return false
+            }
             if (current.color == Color.White) {
                 val c1 = input.row1 - 1
                 if (board[c1][input.column1] != Empty()) {
@@ -266,35 +278,33 @@ object PieceStrategy {
             }
         }
 
-        if (current.color == Color.White) {
-            val columnRight = input.column1 + 1
-            val columnLeft = input.column1 - 1
-            val row = input.row1 - 1
-            if (input.column2 == columnRight || input.column2 == columnLeft && input.row2 == row) {
-                if (columnLeft in 0..7 && board[row][columnLeft].color == Color.Black)
-                    return true
-
-                if (columnRight in 0..7 && board[row][columnRight].color == Color.Black)
-                    return true
-            }
-
-        }
-
-        if (current.color == Color.Black) {
-            val columnRight = input.column1 + 1
-            val columnLeft = input.column1 - 1
-            val row = input.row1 + 1
-            if ((input.column2 == columnRight || input.column2 == columnLeft) && input.row2 == row) {
-                if (columnLeft in 0..7 && board[row][columnLeft].color == Color.White)
-                    return true
-
-                if (columnRight in 0..7 && board[row][columnRight].color == Color.White)
-                    return true
-            }
-
-        }
+        //kill piece
+        val offset = if (current.color == Color.White) -1 else 1
+        val toKill = checkToKillWithPawn(board, input, current, offset)
+        if (!toKill) return false
 
         return true
+    }
+
+    private fun checkToKillWithPawn(
+        board: Array<Array<Piece>>,
+        input: InputMove,
+        current: Piece,
+        offset: Int
+    ): Boolean {
+        var isLeft = true
+        var isRight = true
+
+        val columnRight = input.column1 + 1
+        val columnLeft = input.column1 - 1
+        val row = input.row1 + offset
+
+        if ((input.column2 == columnRight || input.column2 == columnLeft) && input.row2 == row) {
+            isLeft = columnLeft in 0..7 && isEnemy(current, board[row][columnLeft])
+            isRight = !isLeft && columnRight in 0..7 && isEnemy(current, board[row][columnRight])
+        }
+
+        return isLeft || isRight
     }
 
     //base logic

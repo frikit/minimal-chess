@@ -1,8 +1,8 @@
 package org.github.home.chess.logic
 
 import org.github.home.chess.Main
-import org.github.home.chess.models.Bishop
 import org.github.home.chess.models.Color
+import org.github.home.chess.models.Pawn
 import org.github.home.chess.utils.Resource
 import org.junit.jupiter.api.Test
 
@@ -16,9 +16,9 @@ internal class PawnStrategyTest {
     private val moveUpTwoCeil = Resource.getResource("invalid-move-up.txt", folder)
     private val moveDiagonalTwoCeil = Resource.getResource("invalid-move-diagonal.txt", folder)
 
-    private val expectedColumn = 3
-    private val expectedRow = 3
-    private val expectedCeilPiece = Bishop(Color.White)
+    private val expectedColumn = 2
+    private val expectedRow = 0
+    private val expectedCeilPiece = Pawn(Color.White)
 
     @Test
     fun `test valid move location`() {
@@ -68,7 +68,7 @@ internal class PawnStrategyTest {
     fun `test invalid move location(diagonal)`() {
         val game = Main.playGame(moveDiagonalTwoCeil)
         val curr = game.moveHistory.size
-        val expected = Resource.readLines(moveDiagonalTwoCeil).size - 2 //two is invalid
+        val expected = Resource.readLines(moveDiagonalTwoCeil).size - 4 // 0 moves should be made
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 }
