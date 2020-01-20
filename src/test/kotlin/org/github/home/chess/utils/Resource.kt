@@ -5,7 +5,7 @@ import java.io.File
 object Resource {
     private val projFolder = "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/"
 
-    fun getResource(fileName: String, folder: String = ""): String {
+    fun getResource(fileName: String, folder: String = "base/"): String {
         return File(projFolder + folder + fileName).absolutePath
     }
 
