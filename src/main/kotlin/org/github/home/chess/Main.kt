@@ -41,11 +41,7 @@ object Main {
     }
 
     private fun printWhoWin() {
-        if (game.moveHistory.isEmpty()) {
-            println("No moves have been made from start of the game!")
-        } else {
-            println("Player ${game.moveHistory.last().piece.color.longName} WIN!")
-        }
+        println(Game.getWhoWin())
     }
 
     private fun printMovesHistory() {

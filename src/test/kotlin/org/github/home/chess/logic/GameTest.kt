@@ -13,6 +13,8 @@ internal class GameTest {
     private val emptyCeilMove = Resource.getResource("invalid-move-empty-slot.txt")
     private val whiteOnWhiteCeilMove = Resource.getResource("move-white-on-white.txt")
     private val blackOnBlackCeilMove = Resource.getResource("move-black-on-black.txt")
+    private val whiteCheckMate = Resource.getResource("white-checkmate.txt")
+    private val notStartedGame = Resource.getResource("not-started-game.txt")
 
     @Test
     fun `init game check no moves`() {
@@ -65,6 +67,28 @@ internal class GameTest {
         val curr = game.moveHistory.size
         val expected = Resource.readLines(blackOnBlackCeilMove).size - 1 //one is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
+    }
+
+    @Test
+    fun `check mate with white`() {
+        val game = Main.playGame(whiteCheckMate)
+        val curr = game.moveHistory.size
+        val expected = Resource.readLines(whiteCheckMate).size
+        assert(curr == expected) { "Found in file $expected != $curr from history" }
+
+        val whoWin = Game.getWhoWin()
+        assert(whoWin.contains("White WIN!")) { "White should win!" }
+    }
+
+    @Test
+    fun `not started game`() {
+        val game = Main.playGame(notStartedGame)
+        val curr = game.moveHistory.size
+        val expected = Resource.readLines(notStartedGame).size - 1 //one move and is invalid
+        assert(curr == expected) { "Found in file $expected != $curr from history" }
+
+        val whoWin = Game.getWhoWin()
+        assert(whoWin == "No moves have been made from start of the game!") { "Should be empty history" }
     }
 
 }

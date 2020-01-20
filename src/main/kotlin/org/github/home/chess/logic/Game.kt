@@ -1,5 +1,6 @@
 package org.github.home.chess.logic
 
+import org.github.home.chess.Main
 import org.github.home.chess.logic.PieceStrategy.isValidPieceSelected
 import org.github.home.chess.logic.PieceStrategy.isValidTargetCeil
 import org.github.home.chess.models.*
@@ -29,6 +30,14 @@ class Game(table: Table = Table()) {
             print("Input values: ")
             inits.map { print(it) }
             println()
+        }
+
+        fun getWhoWin(): String {
+            return if (Main.game.moveHistory.isEmpty()) {
+                "No moves have been made from start of the game!"
+            } else {
+                "Player ${Main.game.moveHistory.last().piece.color.longName} WIN!"
+            }
         }
     }
 
