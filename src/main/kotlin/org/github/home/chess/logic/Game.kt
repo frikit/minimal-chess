@@ -1,7 +1,6 @@
 package org.github.home.chess.logic
 
 import org.github.home.chess.Main
-import org.github.home.chess.logic.PieceStrategy.isValidPieceSelected
 import org.github.home.chess.logic.PieceStrategy.isValidTargetCeil
 import org.github.home.chess.models.*
 
@@ -93,7 +92,6 @@ class Game(table: Table = Table()) {
         val target = board[row2][column2]
 
         if (isValidPlayerMove(piece.color)
-            && isValidPieceSelected(piece)
             && isValidMove(piece, board, input)
             && isValidTargetCeil(piece, target)
         ) {
@@ -176,7 +174,7 @@ class Game(table: Table = Table()) {
             is Bishop -> PieceStrategy.bishopLogic(board, input)
             is Rook -> PieceStrategy.rookLogic(board, input)
             is Queen -> PieceStrategy.queenLogic(board, input)
-            else -> false//TODO nare cum sa ajunga aici
+            is Empty -> false
         }
     }
 
