@@ -219,7 +219,7 @@ object PieceStrategy {
             if (distance.absoluteValue > 2) {
                 //can't move more than 2 ceil
                 return false
-            } else if (distance.absoluteValue >= 2 && input.column1 != input.column2) {
+            } else if (distance.absoluteValue == 2 && input.column1 != input.column2) {
                 //if is 2 ceil far make sure direction is on same column
                 return false
             }
@@ -271,11 +271,11 @@ object PieceStrategy {
             val columnLeft = input.column1 - 1
             val row = input.row1 - 1
             if (input.column2 == columnRight || input.column2 == columnLeft && input.row2 == row) {
-                if (columnLeft in 0..7 && board[row][columnLeft].color != Color.Black)
-                    return false
+                if (columnLeft in 0..7 && board[row][columnLeft].color == Color.Black)
+                    return true
 
-                if (columnRight in 0..7 && board[row][columnRight].color != Color.Black)
-                    return false
+                if (columnRight in 0..7 && board[row][columnRight].color == Color.Black)
+                    return true
             }
 
         }
@@ -285,11 +285,11 @@ object PieceStrategy {
             val columnLeft = input.column1 - 1
             val row = input.row1 + 1
             if ((input.column2 == columnRight || input.column2 == columnLeft) && input.row2 == row) {
-                if (columnLeft in 0..7 && board[row][columnLeft].color != Color.White)
-                    return false
+                if (columnLeft in 0..7 && board[row][columnLeft].color == Color.White)
+                    return true
 
-                if (columnRight in 0..7 && board[row][columnRight].color != Color.White)
-                    return false
+                if (columnRight in 0..7 && board[row][columnRight].color == Color.White)
+                    return true
             }
 
         }
