@@ -102,14 +102,15 @@ class Game(table: Table = Table()) {
             board[row2][column2] = piece
             board[row1][column1] = Empty()
 
-            if (isCheckForCheck(true) && check) {
+            val check2 = isCheckForCheck(true)
+
+            if (check2 && check) {
                 board[row2][column2] = pivot
                 board[row1][column1] = piece
                 println("check")
             } else {
-                moveHistory.add(Move(piece, getHumanReadableString(inits)))
+                moveHistory.add(Move(piece, getHumanReadableString(inits), check2))
                 piece.isFirstMove = false
-
             }
         } else {
             println("Invalid player move please fix you input!")
