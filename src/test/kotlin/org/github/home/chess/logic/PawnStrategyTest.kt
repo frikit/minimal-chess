@@ -52,7 +52,7 @@ internal class PawnStrategyTest {
     fun `test invalid move location(column down)`() {
         val game = Main.playGame(moveDownTwoCeil)
         val curr = game.moveHistory.size
-        val expected = Resource.readLines(moveDownTwoCeil).size - 1 //one is invalid
+        val expected = Resource.readLines(moveDownTwoCeil).size - 2 //two is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 
