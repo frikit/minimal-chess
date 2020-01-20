@@ -21,8 +21,6 @@ object Main {
             args[0]
 
         playGame(path)
-
-        printByeMessage()
     }
 
     fun playGame(path: String, table: Table = Table()): Game {
@@ -42,20 +40,29 @@ object Main {
         println("Start chess game!")
     }
 
-    private fun printByeMessage() {
-        println("Finish game!")
+    private fun printWhoWin() {
+        if (game.moveHistory.isEmpty()) {
+            println("No moves have been made from start of the game!")
+        } else {
+            println("Player ${game.moveHistory.last().piece.color.longName} WIN!")
+        }
+    }
+
+    private fun printMovesHistory() {
+        println("Here is history:")
+        game.moveHistory.forEachIndexed { idx, it ->
+            print("${idx + 1}. ")
+            println(it)
+        }
     }
 
     private fun addShutdownHook() {
         val mainThread: Thread = Thread.currentThread()
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
-                println("Player " + game.moveHistory.last().piece.color.longName + " WIN!")
-                println("Here is history!")
-                game.moveHistory.forEach {
-                    println(it)
-                }
-                println("Will print score table or something like this!")
+                printWhoWin()
+                printMovesHistory()
+
                 //kill process with the main thread will not end current running logic
                 mainThread.join(5_000)
             }

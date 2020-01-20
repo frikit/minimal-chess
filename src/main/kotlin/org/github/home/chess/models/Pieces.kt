@@ -2,44 +2,45 @@ package org.github.home.chess.models
 
 sealed class Piece(
     val name: String,
+    open val longName: String,
     open val color: Color
 ) {
     var isFirstMove = true
 }
 
-data class Empty(override val color: Color = Color.Empty) : Piece(" ", color)
+data class Empty(override val color: Color = Color.Empty) : Piece(" ", " ", color)
 
-data class Pawn(override val color: Color) : Piece("p", color) {
+data class Pawn(override val color: Color) : Piece("p", "Pawn", color) {
     companion object {
         const val maxNumbers: Int = 8
     }
 }
 
-data class Knight(override val color: Color) : Piece("n", color) {
+data class Knight(override val color: Color) : Piece("n", "Knight", color) {
     companion object {
         const val maxNumbers: Int = 2
     }
 }
 
-data class Bishop(override val color: Color) : Piece("b", color) {
+data class Bishop(override val color: Color) : Piece("b", "Bishop", color) {
     companion object {
         const val maxNumbers: Int = 2
     }
 }
 
-data class Rook(override val color: Color) : Piece("r", color) {
+data class Rook(override val color: Color) : Piece("r", "Rook", color) {
     companion object {
         const val maxNumbers: Int = 2
     }
 }
 
-data class Queen(override val color: Color) : Piece("q", color) {
+data class Queen(override val color: Color) : Piece("q", "Queen", color) {
     companion object {
         const val maxNumbers: Int = 1
     }
 }
 
-data class King(override val color: Color) : Piece("k", color) {
+data class King(override val color: Color) : Piece("k", "King", color) {
     companion object {
         const val maxNumbers: Int = 1
     }
