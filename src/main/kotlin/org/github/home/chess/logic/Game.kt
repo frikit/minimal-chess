@@ -100,15 +100,13 @@ class Game(table: Table = Table()) {
             val check = isCheckForCheck(false)
             if (check) println("in check")
 
-            val pivot = board[row2][column2]
-
             board[row2][column2] = piece
             board[row1][column1] = Empty()
 
             val check2 = isCheckForCheck(true)
 
             if (check2 && check) {
-                board[row2][column2] = pivot
+                board[row2][column2] = target
                 board[row1][column1] = piece
                 println("check")
             } else {
@@ -121,20 +119,10 @@ class Game(table: Table = Table()) {
     }
 
     private fun isCheckForCheck(print: Boolean): Boolean {
-        var blackKing: Pair<Int, Int> = Pair(0, 0)
-        var whiteKing: Pair<Int, Int> = Pair(0, 0)
-        board.forEachIndexed { y, item ->
-            item.forEachIndexed { x, piece ->
-                run {
-                    if (piece is King && piece.color == Color.White) {
-                        whiteKing = Pair(x, y)
-                    }
-                    if (piece is King && piece.color == Color.Black) {
-                        blackKing = Pair(x, y)
-                    }
-                }
-            }
-        }
+        val pair = findKings()
+        val blackKing: Pair<Int, Int> = pair.first
+        val whiteKing: Pair<Int, Int> = pair.second
+
         //check all between all elements as there is no check
         board.forEachIndexed { y, item ->
             item.forEachIndexed { x, piece ->
@@ -160,6 +148,24 @@ class Game(table: Table = Table()) {
             }
         }
         return false
+    }
+
+    private fun findKings(): Pair<Pair<Int, Int>, Pair<Int, Int>> {
+        var whiteKing1 = Pair(0, 0)
+        var blackKing1 = Pair(0, 0)
+        board.forEachIndexed { y, item ->
+            item.forEachIndexed { x, piece ->
+                run {
+                    if (piece is King && piece.color == Color.White) {
+                        whiteKing1 = Pair(x, y)
+                    }
+                    if (piece is King && piece.color == Color.Black) {
+                        blackKing1 = Pair(x, y)
+                    }
+                }
+            }
+        }
+        return Pair(blackKing1, whiteKing1)
     }
 
     private fun isValidMove(piece: Piece, board: Array<Array<Piece>>, input: InputMove): Boolean {

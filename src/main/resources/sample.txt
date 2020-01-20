@@ -1,0 +1,17 @@
+e2e4
+e7e5
+d2d4
+d7d5
+f2f4
+f7f5
+d1d3
+d8d6
+d3a3
+h7h6
+f1c4
+h6h5
+c4d5
+a7a6
+a3a4
+c7c5
+e8d7

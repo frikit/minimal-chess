@@ -117,7 +117,6 @@ object PieceStrategy {
         return enemies < 2 && res
     }
 
-    //rook
     //TODO refactor
     private fun isHorizontalOrVerticalMove(board: Array<Array<Piece>>, input: InputMove): Boolean {
         val curr = board[input.row1][input.column1]
@@ -133,9 +132,10 @@ object PieceStrategy {
             var x: Int = input.row1 + offset
             val lastIndex = input.row2
             while (x != input.row2 + offset) {
-                if (x == lastIndex && board[x][input.column1].color != curr.color) return true
-                if (x != lastIndex && board[x][input.column1].color != Color.Empty && board[x][input.column1].color != curr.color) return false
-                if (board[x][input.column1].color == curr.color) return false
+                val ceil = board[x][input.column1]
+                if (x == lastIndex && ceil.color != curr.color) return true
+                if (x != lastIndex && ceil.color != Color.Empty && ceil.color != curr.color) return false
+                if (ceil.color == curr.color) return false
 
                 x += offset
             }
@@ -149,9 +149,11 @@ object PieceStrategy {
             var x: Int = input.column1 + offset
             val lastIndex = input.column2
             while (x != input.column2 + offset) {
-                if (x == lastIndex && board[input.row1][x].color != curr.color) return true
-                if (x != lastIndex && board[input.row1][x].color != Color.Empty && board[input.row1][x].color != curr.color) return false
-                if (board[input.row1][x].color == curr.color) return false
+                val ceil = board[input.row1][x]
+                if (x == lastIndex && ceil.color != curr.color) return true
+                if (x != lastIndex && ceil.color != Color.Empty && ceil.color != curr.color) return false
+                if (ceil.color == curr.color) return false
+
                 x += offset
             }
         }
