@@ -16,7 +16,7 @@ object Main {
         addShutdownHook()
 
         val path = if (args.isEmpty())
-            "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/sample.txt"
+            "sample.txt"
         else
             args[0]
 
