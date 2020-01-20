@@ -201,18 +201,45 @@ object PieceStrategy {
     private fun isPawnMove(board: Array<Array<Piece>>, input: InputMove): Boolean {
         val current = board[input.row1][input.column1]
 
-        // check direction
-        if (current.color == Color.White) {
-            if (input.row1 < input.row2)
+        val isDirectionValid = isPawnDirectionValid(current, input)
+        if (!isDirectionValid) return false
+
+        val isFirstMoveLogic = isPawnFirstMove(current, input, board)
+        if (!isFirstMoveLogic) return false
+
+        val isOtherMoveLogic = isPawnNotFirstMove(current, input, board)
+        if (!isOtherMoveLogic) return false
+
+        //kill piece
+        val offset = if (current.color == Color.White) -1 else 1
+        val toKill = checkToKillWithPawn(board, input, current, offset)
+        if (!toKill) return false
+
+        return true
+    }
+
+    private fun isPawnNotFirstMove(current: Piece, input: InputMove, board: Array<Array<Piece>>): Boolean {
+        // on the second move allow 1 spaces
+        if (!current.isFirstMove) {
+            val distance = input.row1 - input.row2
+            if (distance.absoluteValue > 1) {
                 return false
+            }
+            val distanceCol = input.column1 - input.column2
+            if (distanceCol.absoluteValue > 1) {
+                return false
+            }
+            val offset = if (current.color == Color.White) -1 else 1
+            val c1 = input.row1 + offset
+            if (board[c1][input.column1] != Empty()) {
+                return false
+            }
         }
 
-        // check direction
-        if (current.color == Color.Black) {
-            if (input.row1 > input.row2)
-                return false
-        }
+        return true
+    }
 
+    private fun isPawnFirstMove(current: Piece, input: InputMove, board: Array<Array<Piece>>): Boolean {
         // on first move allow 2 spaces
         if (current.isFirstMove) {
             //row
@@ -231,57 +258,36 @@ object PieceStrategy {
                 return false
             }
 
-            // check move only on empty spot
-            if (current.color == Color.White) {
-                val c1 = input.row1 - 1
-                val c2 = input.row1 - 2
-                if (board[c1][input.column1] != Empty()) {
-                    return false
-                }
-                if (board[c2][input.column1] != Empty()) {
-                    return false
-                }
-            }
-            if (current.color == Color.Black) {
-                val c1 = input.row1 + 1
-                val c2 = input.row1 + 2
-                if (board[c1][input.column1] != Empty()) {
-                    return false
-                }
-                if (board[c2][input.column1] != Empty()) {
-                    return false
-                }
-            }
+            val moveEmptySpot = checkMoveEmptySpotWithPawn(current, input, board)
+            if (!moveEmptySpot) return false
         }
 
-        // on first move allow 1 spaces
-        if (!current.isFirstMove) {
-            val distance = input.row1 - input.row2
-            if (distance.absoluteValue > 1) {
-                return false
-            }
-            val distanceCol = input.column1 - input.column2
-            if (distanceCol.absoluteValue > 1) {
-                return false
-            }
-            if (current.color == Color.White) {
-                val c1 = input.row1 - 1
-                if (board[c1][input.column1] != Empty()) {
-                    return false
-                }
-            }
-            if (current.color == Color.Black) {
-                val c1 = input.row1 + 1
-                if (board[c1][input.column1] != Empty()) {
-                    return false
-                }
-            }
+        return true
+    }
+
+    private fun checkMoveEmptySpotWithPawn(current: Piece, input: InputMove, board: Array<Array<Piece>>): Boolean {
+        // check move only on empty spot
+        val offset1 = if (current.color == Color.White) -1 else 1
+        val offset2 = if (current.color == Color.White) -2 else 2
+        val c1 = input.row1 + offset1
+        val c2 = input.row1 + offset2
+        if (board[c1][input.column1] != Empty()) {
+            return false
+        }
+        if (board[c2][input.column1] != Empty()) {
+            return false
         }
 
-        //kill piece
-        val offset = if (current.color == Color.White) -1 else 1
-        val toKill = checkToKillWithPawn(board, input, current, offset)
-        if (!toKill) return false
+        return true
+    }
+
+    private fun isPawnDirectionValid(current: Piece, input: InputMove): Boolean {
+        // check direction
+        if (current.color == Color.White && input.row1 < input.row2)
+            return false
+
+        if (current.color == Color.Black && input.row1 > input.row2)
+            return false
 
         return true
     }
