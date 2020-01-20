@@ -56,17 +56,17 @@ class Game(table: Table = Table()) {
     }
 
     private fun printTable(board: Array<Array<Piece>>) {
-        println("   a   b   c   d   e   f   g   h")
+        println("   a b c d e f g h")
         (0..7).forEach { i ->
             print("${8 - i} |")
             (0..7).forEach { j ->
-                print("${board[i][j].name}:${board[i][j].color.name}")
+                print(board[i][j].name)
                 print("|")
             }
             print(" ${8 - i}")
             println()
         }
-        println("   a   b   c   d   e   f   g   h")
+        println("   a b c d e f g h")
     }
 
     fun move(moves: IntArray?): Boolean {
