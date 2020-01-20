@@ -68,7 +68,7 @@ internal class BishopStrategyTest {
     fun `test invalid move location(diagonal)`() {
         val game = Main.playGame(moveDiagonalTwoCeil)
         val curr = game.moveHistory.size
-        val expected = Resource.readLines(moveDiagonalTwoCeil).size - 4 //two is invalid
+        val expected = Resource.readLines(moveDiagonalTwoCeil).size - 7 //seven is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
     }
 }
