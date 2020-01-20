@@ -9,7 +9,6 @@ import kotlin.math.absoluteValue
 
 object PieceStrategy {
 
-    //king
     private fun isNearCeil(input: InputMove): Boolean {
         if (abs(input.column2 - input.column1) < 2
             && abs(input.row2 - input.row1) < 2
@@ -19,10 +18,8 @@ object PieceStrategy {
         return false
     }
 
-    //bishop
     private fun isDiagonalCeil(board: Array<Array<Piece>>, input: InputMove): Boolean {
         var movable = false
-        //TODO check not jump over other pieces while moving on diagonally
         if (abs(input.row2 - input.row1) == abs(input.column2 - input.column1)) {
             if (input.row1 > input.row2 && input.column1 > input.column2) {
                 // Destination is up and to the left of the current location

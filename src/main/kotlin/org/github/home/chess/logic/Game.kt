@@ -92,12 +92,6 @@ class Game(table: Table = Table()) {
         val piece = board[row1][column1]
         val target = board[row2][column2]
 
-        //TODO remove for debug purpose
-        if (!isValidPlayerMove(piece.color)) println("Is invalid player move!")
-        if (!isValidPieceSelected(piece)) println("Is invalid piece selected!")
-        if (!isValidMove(piece, board, input)) println("Is invalid move made for piece!")
-        if (!isValidTargetCeil(piece, target)) println("Is invalid target ceil!")
-
         if (isValidPlayerMove(piece.color)
             && isValidPieceSelected(piece)
             && isValidMove(piece, board, input)
