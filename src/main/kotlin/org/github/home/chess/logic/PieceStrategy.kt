@@ -45,11 +45,13 @@ object PieceStrategy {
     //TODO refactor these 4 methods
     private fun goDownLeft(input: InputMove, board: Array<Array<Piece>>): Boolean {
         var res = false
+        var enemies = 0
         var i: Int = input.row1 + 1
         var j: Int = input.column1 - 1
         val curr = board[input.row1][input.column1]
         while (i <= input.row2 && j >= input.column2) {
             val ceil = board[i][j]
+            if (isEnemy(curr, ceil)) enemies++
             res = isValidTargetCeil(curr, ceil)
             if (!res) {
                 break
@@ -57,16 +59,18 @@ object PieceStrategy {
             i++
             j--
         }
-        return res
+        return enemies < 2 && res
     }
 
     private fun goUpLeft(input: InputMove, board: Array<Array<Piece>>): Boolean {
         var res = false
+        var enemies = 0
         var i: Int = input.row1 - 1
         var j: Int = input.column1 - 1
         val curr = board[input.row1][input.column1]
         while (i >= input.row2 && j >= input.column2) {
             val ceil = board[i][j]
+            if (isEnemy(curr, ceil)) enemies++
             res = isValidTargetCeil(curr, ceil)
             if (!res) {
                 break
@@ -75,16 +79,18 @@ object PieceStrategy {
             j--
         }
 
-        return res
+        return enemies < 2 && res
     }
 
     private fun goDownRight(input: InputMove, board: Array<Array<Piece>>): Boolean {
         var res = false
+        var enemies = 0
         var i: Int = input.row1 + 1
         var j: Int = input.column1 + 1
         val curr = board[input.row1][input.column1]
         while (i <= input.row2 && j <= input.column2) {
             val ceil = board[i][j]
+            if (isEnemy(curr, ceil)) enemies++
             res = isValidTargetCeil(curr, ceil)
             if (!res) {
                 break
@@ -92,16 +98,18 @@ object PieceStrategy {
             i++
             j++
         }
-        return res
+        return enemies < 2 && res
     }
 
     private fun goUpRight(input: InputMove, board: Array<Array<Piece>>): Boolean {
         var res = false
+        var enemies = 0
         var i: Int = input.row1 - 1
         var j: Int = input.column1 + 1
         val curr = board[input.row1][input.column1]
         while (i >= input.row2 && j <= input.column2) {
             val ceil = board[i][j]
+            if (isEnemy(curr, ceil)) enemies++
             res = isValidTargetCeil(curr, ceil)
             if (!res) {
                 break
@@ -109,7 +117,7 @@ object PieceStrategy {
             i--
             j++
         }
-        return res
+        return enemies < 2 && res
     }
 
     //rook
@@ -154,32 +162,6 @@ object PieceStrategy {
         return false
     }
 
-    //base logic
-    fun isValidTargetCeil(piece: Piece, target: Piece): Boolean {
-        return piece.color != target.color
-    }
-
-    private fun fromCeil(board: Array<Array<Piece>>, input: InputMove): Piece {
-        return board[input.row1][input.column1]
-    }
-
-    private fun toCeil(board: Array<Array<Piece>>, input: InputMove): Piece {
-        return board[input.row2][input.column2]
-    }
-
-    fun isValidPieceSelected(piece: Piece): Boolean {
-        return when (piece) {
-            is Empty -> false
-            else -> true
-        }
-    }
-
-    private fun isValidFromTo(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        val isValidFrom = isValidPieceSelected(fromCeil(board, input))
-        val isValidTo = isValidTargetCeil(fromCeil(board, input), toCeil(board, input))
-        return isValidFrom && isValidTo
-    }
-
     private fun isOneOfLShapeMove(input: InputMove): Boolean {
         val targetPosition = Pair(input.column2, input.row2)
 
@@ -214,31 +196,6 @@ object PieceStrategy {
         val positions = listOf(upLeft, upRight, downLeft, downRight, leftDown, leftUp, rightDown, rightUp)
 
         return positions.contains(targetPosition)
-    }
-
-    //pieces
-    fun kingLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && isNearCeil(input)
-    }
-
-    fun bishopLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && isDiagonalCeil(board, input)
-    }
-
-    fun rookLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && isHorizontalOrVerticalMove(board, input)
-    }
-
-    fun queenLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && (isDiagonalCeil(board, input) || isHorizontalOrVerticalMove(board, input))
-    }
-
-    fun knightLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && isOneOfLShapeMove(input)
-    }
-
-    fun pawnLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
-        return isValidFromTo(board, input) && isPawnMove(board, input)
     }
 
     private fun isPawnMove(board: Array<Array<Piece>>, input: InputMove): Boolean {
@@ -338,6 +295,60 @@ object PieceStrategy {
         }
 
         return true
+    }
+
+    //base logic
+    private fun isEnemy(curr: Piece, ceil: Piece) =
+        ceil.color !is Color.Empty && curr.color != ceil.color
+
+    fun isValidTargetCeil(piece: Piece, target: Piece): Boolean {
+        return piece.color != target.color
+    }
+
+    private fun fromCeil(board: Array<Array<Piece>>, input: InputMove): Piece {
+        return board[input.row1][input.column1]
+    }
+
+    private fun toCeil(board: Array<Array<Piece>>, input: InputMove): Piece {
+        return board[input.row2][input.column2]
+    }
+
+    fun isValidPieceSelected(piece: Piece): Boolean {
+        return when (piece) {
+            is Empty -> false
+            else -> true
+        }
+    }
+
+    private fun isValidFromTo(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        val isValidFrom = isValidPieceSelected(fromCeil(board, input))
+        val isValidTo = isValidTargetCeil(fromCeil(board, input), toCeil(board, input))
+        return isValidFrom && isValidTo
+    }
+
+    //pieces
+    fun kingLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isNearCeil(input)
+    }
+
+    fun bishopLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isDiagonalCeil(board, input)
+    }
+
+    fun rookLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isHorizontalOrVerticalMove(board, input)
+    }
+
+    fun queenLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && (isDiagonalCeil(board, input) || isHorizontalOrVerticalMove(board, input))
+    }
+
+    fun knightLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isOneOfLShapeMove(input)
+    }
+
+    fun pawnLogic(board: Array<Array<Piece>>, input: InputMove): Boolean {
+        return isValidFromTo(board, input) && isPawnMove(board, input)
     }
 
 }
