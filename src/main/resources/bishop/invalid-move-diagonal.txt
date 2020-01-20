@@ -8,4 +8,11 @@ d1d3
 d8d6
 d3a3
 d6a6
-f1f3
+f1b5
+e8d8
+g2g4
+f8b4
+e1d1
+b4d1
+g7g5
+b5d8

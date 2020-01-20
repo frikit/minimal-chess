@@ -146,9 +146,8 @@ class Game(table: Table = Table()) {
                         val inputMove = InputMove(moves)
                         if (isValidMove(piece, board, inputMove)) {
                             if (print) {
-                                print("Check for: ")
+                                print("CHECK ON: ")
                                 printHumanReadable(moves)
-                                println("King is under attack save the king!")
                             }
                             return true
                         }
