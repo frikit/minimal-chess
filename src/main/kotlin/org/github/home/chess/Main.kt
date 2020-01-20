@@ -41,15 +41,7 @@ object Main {
     }
 
     private fun printWhoWin() {
-        println(Game.getWhoWin())
-    }
-
-    private fun printMovesHistory() {
-        println("Here is history:")
-        game.moveHistory.forEachIndexed { idx, it ->
-            print("${idx + 1}. ")
-            println(it)
-        }
+        println(Game.getWhoWin(game))
     }
 
     private fun addShutdownHook() {
@@ -57,7 +49,7 @@ object Main {
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
                 printWhoWin()
-                printMovesHistory()
+                Game.printMovesHistory(game)
 
                 //kill process with the main thread will not end current running logic
                 mainThread.join(5_000)

@@ -31,6 +31,17 @@ internal class GameTest {
     }
 
     @Test
+    fun `check make all valid moves print history`() {
+        val game = Main.playGame(validMoves)
+        val curr = game.moveHistory.size
+        val expected = Resource.readLines(validMoves).size
+        assert(curr == expected) { "Found in file $expected != $curr from history" }
+
+        //not throw exception
+        Game.printMovesHistory(game)
+    }
+
+    @Test
     fun `check make one invalid move from 3 moves`() {
         val game = Main.playGame(twoTimesWithWhite)
         val curr = game.moveHistory.size
@@ -77,7 +88,7 @@ internal class GameTest {
         val expected = Resource.readLines(whiteCheckMate).size
         assert(curr == expected) { "Found in file $expected != $curr from history" }
 
-        val whoWin = Game.getWhoWin()
+        val whoWin = Game.getWhoWin(game)
         assert(whoWin.contains("White WIN!")) { "White should win!" }
     }
 
@@ -88,7 +99,7 @@ internal class GameTest {
         val expected = Resource.readLines(notStartedGame).size - 1 //one move and is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
 
-        val whoWin = Game.getWhoWin()
+        val whoWin = Game.getWhoWin(game)
         assert(whoWin == "No moves have been made from start of the game!") { "Should be empty history" }
     }
 
