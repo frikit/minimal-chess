@@ -17,7 +17,7 @@ internal class KingStrategyTest {
     private val moveDiagonalTwoCeil = Resource.getResource("invalid-move-diagonal.txt", folder)
 
     private val expectedColumn = 4
-    private val expectedRow = 7
+    private val expectedRow = 2
     private val expectedCeilPiece = King(Color.White)
 
     @Test

@@ -243,7 +243,6 @@ object PieceStrategy {
 
     private fun isPawnMove(board: Array<Array<Piece>>, input: InputMove): Boolean {
         val current = board[input.row1][input.column1]
-        val target = board[input.row2][input.column2]
 
         // check direction
         if (current.color == Color.White) {
@@ -261,6 +260,10 @@ object PieceStrategy {
         if (current.isFirstMove) {
             val distance = input.row1 - input.row2
             if (distance.absoluteValue > 2) {
+                //can't move more than 2 ceil
+                return false
+            } else if (distance.absoluteValue >= 2 && input.column1 != input.column2) {
+                //if is 2 ceil far make sure direction is on same column
                 return false
             }
             // check move only on empty spot
@@ -311,14 +314,11 @@ object PieceStrategy {
             val columnLeft = input.column1 - 1
             val row = input.row1 - 1
             if (input.column2 == columnRight || input.column2 == columnLeft && input.row2 == row) {
-                if (columnLeft in 0..7)
-                    if (board[row][columnLeft].color == Color.Black) {
-                        return true
-                    }
-                if (columnRight in 0..7)
-                    if (board[row][columnRight].color == Color.Black) {
-                        return true
-                    }
+                if (columnLeft in 0..7 && board[row][columnLeft].color != Color.Black)
+                    return false
+
+                if (columnRight in 0..7 && board[row][columnRight].color != Color.Black)
+                    return false
             }
 
         }
@@ -327,15 +327,12 @@ object PieceStrategy {
             val columnRight = input.column1 + 1
             val columnLeft = input.column1 - 1
             val row = input.row1 + 1
-            if (input.column2 == columnRight || input.column2 == columnLeft && input.row2 == row) {
-                if (columnLeft in 0..7)
-                    if (board[row][columnLeft].color == Color.White) {
-                        return true
-                    }
-                if (columnRight in 0..7)
-                    if (board[row][columnRight].color == Color.White) {
-                        return true
-                    }
+            if ((input.column2 == columnRight || input.column2 == columnLeft) && input.row2 == row) {
+                if (columnLeft in 0..7 && board[row][columnLeft].color != Color.White)
+                    return false
+
+                if (columnRight in 0..7 && board[row][columnRight].color != Color.White)
+                    return false
             }
 
         }

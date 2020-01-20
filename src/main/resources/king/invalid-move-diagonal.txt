@@ -8,5 +8,4 @@ d1d3
 d8d6
 d3a3
 d6a6
-e1e3
-e1e2
+e1f3
