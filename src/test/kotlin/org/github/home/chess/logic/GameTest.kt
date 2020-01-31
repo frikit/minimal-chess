@@ -1,6 +1,7 @@
 package org.github.home.chess.logic
 
 import org.github.home.chess.Main
+import org.github.home.chess.printer.GamePrinter
 import org.github.home.chess.utils.Resource
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -15,7 +16,6 @@ internal class GameTest {
     private val blackOnBlackCeilMove = Resource.getResource("move-black-on-black.txt")
     private val whiteCheckMate = Resource.getResource("white-checkmate.txt")
     private val notStartedGame = Resource.getResource("not-started-game.txt")
-    private val checkOnKingMoveInvalidPiece = Resource.getResource("attempt-to-move-invalid-piece-in-check.txt")
 
     @Test
     fun `init game check no moves`() {
@@ -28,17 +28,6 @@ internal class GameTest {
         val curr = game.moveHistory.size
         val expected = Resource.readLines(validMoves).size
         assert(curr == expected) { "Found in file $expected != $curr from history" }
-    }
-
-    @Test
-    fun `check make all valid moves print history`() {
-        val game = Main.playGame(validMoves)
-        val curr = game.moveHistory.size
-        val expected = Resource.readLines(validMoves).size
-        assert(curr == expected) { "Found in file $expected != $curr from history" }
-
-        //not throw exception
-        Game.printMovesHistory(game)
     }
 
     @Test
@@ -88,7 +77,7 @@ internal class GameTest {
         val expected = Resource.readLines(whiteCheckMate).size
         assert(curr == expected) { "Found in file $expected != $curr from history" }
 
-        val whoWin = Game.getWhoWin(game)
+        val whoWin = GamePrinter.getWhoWin(game)
         assert(whoWin.contains("White WIN!")) { "White should win!" }
     }
 
@@ -99,15 +88,8 @@ internal class GameTest {
         val expected = Resource.readLines(notStartedGame).size - 1 //one move and is invalid
         assert(curr == expected) { "Found in file $expected != $curr from history" }
 
-        val whoWin = Game.getWhoWin(game)
+        val whoWin = GamePrinter.getWhoWin(game)
         assert(whoWin == "No moves have been made from start of the game!") { "Should be empty history" }
     }
 
-    @Test
-    fun `test invalid move pieces on check on king`() {
-        val game = Main.playGame(checkOnKingMoveInvalidPiece)
-        val curr = game.moveHistory.size
-        val expected = Resource.readLines(checkOnKingMoveInvalidPiece).size - 2 //two is invalid
-        assert(curr == expected) { "Found in file $expected != $curr from history" }
-    }
 }

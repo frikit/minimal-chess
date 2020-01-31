@@ -4,6 +4,7 @@ import com.whitehatgaming.UserInput
 import com.whitehatgaming.UserInputFile
 import org.github.home.chess.logic.Game
 import org.github.home.chess.logic.Table
+import org.github.home.chess.printer.GamePrinter
 
 object Main {
 
@@ -16,7 +17,7 @@ object Main {
         addShutdownHook()
 
         val path = if (args.isEmpty())
-            "sample.txt"
+            "/Users/frikit/IdeaProjects/minimal-chess/src/main/resources/sample.txt"
         else
             args[0]
 
@@ -40,16 +41,13 @@ object Main {
         println("Start chess game!")
     }
 
-    private fun printWhoWin() {
-        println(Game.getWhoWin(game))
-    }
 
     private fun addShutdownHook() {
         val mainThread: Thread = Thread.currentThread()
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
-                printWhoWin()
-                Game.printMovesHistory(game)
+                GamePrinter.printWhoWin(game)
+                GamePrinter.printMovesHistory(game)
 
                 //kill process with the main thread will not end current running logic
                 mainThread.join(5_000)
